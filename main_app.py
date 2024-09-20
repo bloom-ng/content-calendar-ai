@@ -5,10 +5,26 @@ import os
 from typing import List
 from predict_function import predict  # Change this line to import 'predict'
 from dotenv import load_dotenv
+from fastapi.middleware.cors import CORSMiddleware
 
 load_dotenv()
 
 app = FastAPI()  # Add this line to create the FastAPI instance
+
+origins = [
+    "https://bloomdigitmedia.com",
+    "https://hr.bloomdigitmedia.com",
+    "http://localhost",
+    "http://localhost:8000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 GROQ_API_KEY = os.environ.get("GROQ_API_KEY")
 if not GROQ_API_KEY:
